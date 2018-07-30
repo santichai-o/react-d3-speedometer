@@ -170,7 +170,9 @@ class ReactSpeedometer extends React.Component {
                 // label format
                 labelFormat: d3Format( PROPS.valueFormat ),
                 // value text string (template string)
-                currentValueText: PROPS.currentValueText
+                currentValueText: PROPS.currentValueText,
+
+                fontSize: PROPS.fontSize,
             };
             // END: Configurable values
 
@@ -293,14 +295,14 @@ class ReactSpeedometer extends React.Component {
                     .attr('class', 'segment-value')
                     // styling stuffs
                     .style("text-anchor", "middle")
-                    .style("font-size", "14px")
+                    .style("font-size", config.fontSize)
                     .style("font-weight", "bold")
                     // .style("fill", "#666");
                     .style("fill", config.textColor);
 
                 // save current value reference
                 self._d3_refs.current_value_text = svg.append("g")
-                    .attr("transform", "translate(" + config.width/2 + "," + (config.width/2) + ")")
+                    .attr("transform", "translate(" + config.width/2 + "," + ( Math.ceil(config.width/1.8)) + ")")
                         .append("text")
                     // add class for the text
                     .attr("class", 'current-value')
@@ -309,7 +311,7 @@ class ReactSpeedometer extends React.Component {
                     .attr("y", 23)
                         // add text
                         .text( config.currentValue || "" )
-                    .style("font-size", "16px")
+                    .style("font-size", config.fontSize)
                     .style("font-weight", "bold")
                     // .style("fill", "#666");
                     .style("fill", config.textColor);
@@ -586,7 +588,9 @@ ReactSpeedometer.propTypes = {
     // d3 format identifier is generally a string; default "" (empty string)
     valueFormat: PropTypes.string.isRequired,
     // value text format
-    currentValueText: PropTypes.string.isRequired
+    currentValueText: PropTypes.string.isRequired,
+
+    fontSize: PropTypes.string.isRequired,
 };
 
 // define the default proptypes
@@ -624,7 +628,9 @@ ReactSpeedometer.defaultProps = {
 
     // value text string format; by default it just shows the value
     // takes es6 template string as input with a default ${value}
-    currentValueText: "${value}"
+    currentValueText: "${value}",
+
+    fontSize: "12px"
 };
 
 export default ReactSpeedometer;
